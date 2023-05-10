@@ -24,6 +24,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
                 database: configService.get('DB_NAME'),
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: false,
+                driver: require('mysql2'), // Use the mysql2 driver package
             }),
             inject: [ConfigService],
         }),

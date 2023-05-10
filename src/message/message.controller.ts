@@ -14,6 +14,7 @@ import { UnauthorizedError } from "../common/unauthorized-error.dto";
 import { NotFoundError } from "../common/not-found-error.dto";
 import { MessageGateway } from "./message.gateway";
 import { SendMessageRequestDto } from "./dto/send-message.request.dto";
+import { MessageService } from "./message.service";
 
 @ApiTags('Message')
 @Controller('message')
@@ -22,6 +23,7 @@ import { SendMessageRequestDto } from "./dto/send-message.request.dto";
 export class MessageController {
 
     constructor(
+        private readonly messageService: MessageService,
         private readonly messageGateway: MessageGateway,
     ){}
 
@@ -32,7 +34,8 @@ export class MessageController {
     @ApiUnauthorizedResponse({ type: UnauthorizedError})
     @ApiNotFoundResponse({ type: NotFoundError})
     async sendMessage(@Body() body: SendMessageRequestDto, @User() user: UserDecorator) {
-        await this.messageGateway.handleMessage(body, user);
+        body.senderUserId = user.id;
+        await this.messageGateway.handleMessage(body);
         return true;
     }
 }

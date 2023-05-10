@@ -8,11 +8,11 @@ export class MessageService {
     constructor(
         @InjectDataSource()
         private dataSource: DataSource
-    ){}
+    ){
+    }
 
-    public async send(payload: SendMessageRequestDto, senderId)
+    public async send(payload: SendMessageRequestDto)
     {
-        payload.senderUserId = senderId;
         await this.dataSource.createQueryBuilder()
             .insert()
             .into("messages")

@@ -8,7 +8,6 @@ import {
     WebSocketGateway,
     WebSocketServer
 } from "@nestjs/websockets";
-import { User, UserDecorator } from "../user/user.decorator";
 import { SendMessageRequestDto } from "./dto/send-message.request.dto";
 
 @WebSocketGateway()
@@ -20,12 +19,11 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
     @SubscribeMessage('sendMessage')
     async handleMessage(
-        @MessageBody() message: SendMessageRequestDto,
-        @User() user: UserDecorator
+        @MessageBody() message: SendMessageRequestDto
     ) {
-        await this.messageService.send(message, user.id);
+        await this.messageService.send(message);
         const newMessage = {
-            senderUserId: user.id,
+            senderUserId: message.senderUserId,
             messageBody: message.messageBody
         }
         this.server.emit('receiveMessage', newMessage);
