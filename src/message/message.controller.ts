@@ -12,7 +12,6 @@ import { User, UserDecorator } from "../user/user.decorator";
 import { ValidationError } from "../common/validation-error.dto";
 import { UnauthorizedError } from "../common/unauthorized-error.dto";
 import { NotFoundError } from "../common/not-found-error.dto";
-import { MessageGateway } from "./message.gateway";
 import { SendMessageRequestDto } from "./dto/send-message.request.dto";
 import { MessageService } from "./message.service";
 
@@ -23,8 +22,7 @@ import { MessageService } from "./message.service";
 export class MessageController {
 
     constructor(
-        private readonly messageService: MessageService,
-        private readonly messageGateway: MessageGateway,
+        private readonly messageService: MessageService
     ){}
 
     @Post('send')
@@ -35,7 +33,7 @@ export class MessageController {
     @ApiNotFoundResponse({ type: NotFoundError})
     async sendMessage(@Body() body: SendMessageRequestDto, @User() user: UserDecorator) {
         body.senderUserId = user.id;
-        await this.messageGateway.handleMessage(body);
+        await this.messageService.send(body);
         return true;
     }
 }
