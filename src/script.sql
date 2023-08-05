@@ -1,4 +1,4 @@
-create database chat_app;
+create database nest_chat_app;
 
 CREATE TABLE `users` (
     `id` int NOT NULL AUTO_INCREMENT,

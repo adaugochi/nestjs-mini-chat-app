@@ -29,7 +29,7 @@ Use docker and docker-compose to build the application locally
 Push your update to git repo and share the repo as response to your assessment.
 
 ## Swagger API Doc
-[API DOC](https://localhost:3000/api-chat-app)
+[API DOC](https://chat-app-4mja.onrender.com/api-chat-app)
 
 ## Requirements
 - node
